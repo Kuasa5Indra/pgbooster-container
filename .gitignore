@@ -1,0 +1,5 @@
+.idea
+# Make sure to give a frontend and backend directory like this
+pgbooster-frontend
+pgbooster-backend
+.env

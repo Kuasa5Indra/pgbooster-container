@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  web:
+    build: 
+      context: pgbooster-frontend/
+      dockerfile: Dockerfile
+    container_name: web
+    env_file: .env
+    ports:
+      - $WEB_PORT:3000
+    networks:
+      - pgbooster-network
+    restart: unless-stopped
+    depends_on:
+      - api-service
+  api-service:
+    build: 
+      context: pgbooster-backend/
+      dockerfile: Dockerfile
+    container_name: api-service
+    env_file: .env
+    ports:
+      - $API_PORT:8000
+    networks:
+      - pgbooster-network
+    restart: on-failure
+    volumes:
+      - aws_cred_user:/usr/src/app/.aws
+    
+networks:
+  pgbooster-network:
+    driver: bridge
+volumes:
+  aws_cred_user:
+    driver: local
